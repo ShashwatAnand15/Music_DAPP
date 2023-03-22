@@ -21,12 +21,14 @@ import FlexBetween from "components/FlexBetween";
 import Dropzone from "react-dropzone";
 import UserImage from "components/UserImage";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
+import { useNavigate } from "react-router-dom";
 
-const MyPostWidget = ({ picturePath }) => {
+const MyPostWidget = ({ picturePath, isProfile = false }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
   const [post, setPost] = useState("");
@@ -37,6 +39,8 @@ const MyPostWidget = ({ picturePath }) => {
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
 
+  useEffect(() => {}, [post]);
+
   const handlePost = async () => {
     const formData = new FormData();
     formData.append("userId", _id);
@@ -46,13 +50,15 @@ const MyPostWidget = ({ picturePath }) => {
       formData.append("picturePath", image.name);
     }
 
-    const response = await fetch(`http://localhost:3001/posts`, {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/posts`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: formData,
     });
     const posts = await response.json();
+
     dispatch(setPosts({ posts }));
+
     setImage(null);
     setPost("");
   };

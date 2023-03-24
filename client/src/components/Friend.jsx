@@ -24,20 +24,18 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   );
 
   const patchFriend = async () => {
-    if (_id !== friendId) {
-      const response = await fetch(
-        `${process.env.REACT_APP_SERVER_URL}/users/${_id}/${friendId}`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      dispatch(setFriends({ friends: data }));
-    }
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/users/${_id}/${friendId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    dispatch(setFriends({ friends: data }));
   };
 
   return (

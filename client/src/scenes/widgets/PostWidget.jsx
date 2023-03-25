@@ -13,6 +13,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import Comment from "components/Comment";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -32,6 +33,7 @@ const PostWidget = ({
   comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
+  const [comment, setComment] = useState("");
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
@@ -56,6 +58,23 @@ const PostWidget = ({
     );
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
+  };
+
+  const handleComment = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/posts/${postId}/${loggedInUserId}/comment`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ comment: comment }),
+      }
+    );
+    const updatedPost = await response.json();
+    dispatch(setPost({ post: updatedPost }));
+    setComment("");
   };
 
   return (
@@ -105,39 +124,52 @@ const PostWidget = ({
       </FlexBetween>
       {isComments && (
         <Box mt="0.5rem">
-          {comments.map((comment, i) => (
-            <Box key={`${name}-${i}`}>
-              <Divider />
-              <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-                {comment}
-              </Typography>
-            </Box>
-          ))}
-          <FlexBetween gap="1.5rem" mb="0.5rem">
+          {comments
+            .slice(0)
+            .reverse()
+            .map((comment, i) => (
+              <Box key={`${name}-${i}`}>
+                <Divider />
+                <Comment
+                  userId={comment.userId}
+                  comment={comment.comment}
+                  postId={postId}
+                />
+              </Box>
+            ))}
+          <Divider />
+          <FlexBetween>
             <InputBase
-              placeholder="What's on your mind..."
-              //onChange={(e) => setPost(e.target.value)}
-              //value={post}
+              placeholder="Write a comment ..."
+              onChange={(e) => setComment(e.target.value)}
+              value={comment}
               sx={{
                 width: "100%",
                 backgroundColor: palette.neutral.light,
                 borderRadius: "2rem",
-                padding: "1rem 1rem",
+                padding: "1rem 2rem",
+                mt: "1rem",
               }}
             />
-
             <Button
-              // onClick={handleComment}
+              disabled={!comment}
+              onClick={handleComment}
               sx={{
                 color: palette.background.alt,
+                mt: "1rem",
+                ml: "0.5rem",
                 backgroundColor: palette.primary.main,
                 borderRadius: "3rem",
+                "&:hover": {
+                  cursor: "pointer",
+                  color: palette.background.alt,
+                  backgroundColor: palette.primary.main,
+                },
               }}
             >
               POST
             </Button>
           </FlexBetween>
-          <Divider />
         </Box>
       )}
     </WidgetWrapper>

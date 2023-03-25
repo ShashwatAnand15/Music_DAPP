@@ -2,6 +2,7 @@ import { Box, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import Footer from "scenes/footer";
 import Navbar from "scenes/navabr";
 import FriendListWidget from "scenes/widgets/FriendListWidget";
 import MyPostWidget from "scenes/widgets/MyPostWidget";
@@ -35,10 +36,12 @@ const ProfilePage = () => {
 
   return (
     <Box>
-      <Navbar />
+      <Box width="100%" position="fixed">
+        <Navbar />
+      </Box>
       <Box
         width="100%"
-        padding="2rem 6%"
+        padding="6rem 6%"
         display={isNonMobileScreens ? "flex" : "block"}
         gap="2rem"
         justifyContent="center"
@@ -58,6 +61,9 @@ const ProfilePage = () => {
           <Box m="2rem 0" />
           <PostsWidget userId={userId} isProfile />
         </Box>
+      </Box>
+      <Box width="100%">
+        <Footer />
       </Box>
     </Box>
   );

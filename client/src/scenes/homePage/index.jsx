@@ -18,9 +18,13 @@ const HomePage = () => {
         display={isNonMobileScreens ? "flex" : "block"}
         gap="0.5rem"
         justifyContent="space-between"
+        postion="relative"
       >
-        <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          <UserWidget userId={_id} picturePath={picturePath} />
+        <Box
+          flexBasis={isNonMobileScreens ? "26%" : undefined}
+          position="sticky"
+        >
+          <UserWidget userId={_id} picturePath={picturePath} stick />
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}

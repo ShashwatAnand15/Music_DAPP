@@ -21,16 +21,14 @@ import FlexBetween from "components/FlexBetween";
 import Dropzone from "react-dropzone";
 import UserImage from "components/UserImage";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "state";
-import { useNavigate } from "react-router-dom";
+import { addPost } from "state";
 
-const MyPostWidget = ({ picturePath, isProfile = false }) => {
+const MyPostWidget = ({ picturePath }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isImage, setIsImage] = useState(false);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
   const [post, setPost] = useState("");
   const { palette } = useTheme();
   const { _id } = useSelector((state) => state.user);
@@ -39,28 +37,39 @@ const MyPostWidget = ({ picturePath, isProfile = false }) => {
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
 
-  useEffect(() => {}, [post]);
-
   const handlePost = async () => {
     const formData = new FormData();
     formData.append("userId", _id);
     formData.append("description", post);
     if (image) {
-      formData.append("picture", image);
-      formData.append("picturePath", image.name);
+      const base64 = await convertTobase64(image);
+      // formData.append("picture", image);
+      // formData.append("picturePath", image.name);
+      formData.append("picturePath", base64);
     }
-
     const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/posts`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: formData,
     });
     const posts = await response.json();
-
-    dispatch(setPosts({ posts }));
-
+    dispatch(addPost({ posts }));
     setImage(null);
     setPost("");
+  };
+
+  const convertTobase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
   };
 
   return (

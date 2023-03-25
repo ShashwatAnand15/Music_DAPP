@@ -4,7 +4,15 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  InputBase,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -67,7 +75,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`${process.env.REACT_APP_SERVER_URL}/assets/${picturePath}`}
+          src={`${picturePath}`}
         />
       )}
       <FlexBetween mt="0.25rem">
@@ -105,6 +113,30 @@ const PostWidget = ({
               </Typography>
             </Box>
           ))}
+          <FlexBetween gap="1.5rem" mb="0.5rem">
+            <InputBase
+              placeholder="What's on your mind..."
+              //onChange={(e) => setPost(e.target.value)}
+              //value={post}
+              sx={{
+                width: "100%",
+                backgroundColor: palette.neutral.light,
+                borderRadius: "2rem",
+                padding: "1rem 1rem",
+              }}
+            />
+
+            <Button
+              // onClick={handleComment}
+              sx={{
+                color: palette.background.alt,
+                backgroundColor: palette.primary.main,
+                borderRadius: "3rem",
+              }}
+            >
+              POST
+            </Button>
+          </FlexBetween>
           <Divider />
         </Box>
       )}

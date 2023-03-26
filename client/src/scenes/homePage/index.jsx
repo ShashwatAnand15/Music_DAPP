@@ -12,15 +12,15 @@ const HomePage = () => {
   const { _id, picturePath } = useSelector((state) => state.user);
   return (
     <Box>
-      <Box width="100%" position="fixed">
+      <Box width="100%" position="fixed" zIndex="1">
         <Navbar />
       </Box>
 
       <Box
         width="100%"
-        padding="2rem 6%"
+        padding="6rem 6%"
         display={isNonMobileScreens ? "flex" : "block"}
-        gap="0.5rem"
+        gap="2rem"
         justifyContent="space-between"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>

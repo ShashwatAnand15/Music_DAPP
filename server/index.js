@@ -42,8 +42,10 @@ const storage = multer.diskStorage({
     cb(null, file.originalname);
   },
 });
-
-const upload = multer({ storage });
+const upload = multer({
+  storage: storage,
+  limits: { fieldSize: 25 * 1024 * 1024 },
+});
 
 // Routes with files
 app.post("/auth/register", upload.single("picture"), register);

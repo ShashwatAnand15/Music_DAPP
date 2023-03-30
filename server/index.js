@@ -10,13 +10,13 @@ import path from "path";
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
-import postRoutes from "./routes/posts.js";
-import { createPost } from "./controllers/posts.js";
+import songRoutes from "./routes/songs.js";
+import { createSong } from "./controllers/songs.js";
 import { register } from "./controllers/auth.js";
 import { verifyToken } from "./middleware/auth.js";
 import User from "./models/User.js";
-import Post from "./models/Post.js";
-import { users, posts } from "./data/index.js";
+import Song from "./models/Song.js";
+//import { users, songs } from "./data/index.js";
 // Configurations
 
 const __filename = fileURLToPath(import.meta.url);
@@ -49,13 +49,13 @@ const upload = multer({
 
 // Routes with files
 app.post("/auth/register", upload.single("picture"), register);
-app.post("/posts", verifyToken, upload.single("picture"), createPost);
+app.post("/songs", verifyToken, upload.single("picture"), createSong);
 
 //Routes
 
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
-app.use("/posts", postRoutes);
+app.use("/songs", songRoutes);
 // Mongoose setup
 
 const PORT = process.env.PORT || 6001;
@@ -71,7 +71,7 @@ mongoose
     });
 
     // User.insertMany(users);
-    // Post.insertMany(posts);
+    // Song.insertMany(songs);
   })
   .catch((error) => {
     console.log(`${error} did not connect`);

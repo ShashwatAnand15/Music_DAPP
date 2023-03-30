@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const postSchema = mongoose.Schema(
+const songSchema = mongoose.Schema(
   {
     userId: {
       type: String,
       required: true,
     },
-    Name: {
+    name: {
       type: String,
       required: true,
     },
@@ -15,7 +15,7 @@ const postSchema = mongoose.Schema(
       required: true,
     },
     picturePath: String,
-    songPath: String,
+    audioPath: String,
     viewCount: Number,
     likes: {
       type: Array,
@@ -25,6 +25,6 @@ const postSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Post = mongoose.model("Post", postSchema);
+const Song = mongoose.model("Post", songSchema);
 
-export default Post;
+export default Song;

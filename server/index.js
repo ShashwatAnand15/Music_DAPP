@@ -63,6 +63,7 @@ mongoose
   .connect(process.env.MONGO_URL, {
     useNewURLParser: true,
     useUnifiedTopology: true,
+    dbName: "music-app",
   })
   .then(() => {
     app.listen(PORT, () => {

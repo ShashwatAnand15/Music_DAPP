@@ -6,23 +6,18 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    firstName: {
+    Name: {
       type: String,
       required: true,
     },
-    lastName: {
+    artistName: {
       type: String,
       required: true,
     },
-    location: String,
-    description: String,
     picturePath: String,
-    userPicturePath: String,
+    songPath: String,
+    viewCount: Number,
     likes: {
-      type: Map,
-      of: Boolean,
-    },
-    comments: {
       type: Array,
       default: [],
     },

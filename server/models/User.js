@@ -31,6 +31,10 @@ const UserSchema = new mongoose.Schema(
       default: "",
       max: 50,
     },
+    songs: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 );

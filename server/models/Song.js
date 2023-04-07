@@ -4,7 +4,6 @@ const songSchema = mongoose.Schema(
   {
     userId: {
       type: String,
-      required: true,
     },
     name: {
       type: String,
@@ -12,7 +11,6 @@ const songSchema = mongoose.Schema(
     },
     artistName: {
       type: String,
-      required: true,
     },
     picturePath: String,
     audioPath: String,
@@ -25,6 +23,6 @@ const songSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Song = mongoose.model("Post", songSchema);
+const Song = mongoose.model("Song", songSchema);
 
 export default Song;

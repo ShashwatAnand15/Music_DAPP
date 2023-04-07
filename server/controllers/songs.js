@@ -5,11 +5,12 @@ import User from "../models/User.js";
 export const createSong = async (req, res) => {
   try {
     const { userId, name, audioPath, picturePath } = req.body;
+    console.log(audioPath);
     const user = await User.findById(userId);
     const newSong = new Song({
       userId,
       name: name,
-      ArtistName: user.firstName + user.lastName,
+      artistName: user.firstName + " " + user.lastName,
       picturePath: picturePath,
       audioPath: audioPath,
       viewCount: 0,
@@ -17,7 +18,7 @@ export const createSong = async (req, res) => {
     });
     await newSong.save();
 
-    const song = await Song.find();
+    //const song = await Song.find();
     res.status(201).json(newSong);
   } catch (err) {
     res.status(409).json({ message: err.message });

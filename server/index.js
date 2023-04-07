@@ -46,10 +46,14 @@ const upload = multer({
   storage: storage,
   limits: { fieldSize: 25 * 1024 * 1024 },
 });
-
 // Routes with files
 app.post("/auth/register", upload.single("picture"), register);
-app.post("/songs", verifyToken, upload.single("picture"), createSong);
+app.post(
+  "/songs",
+  verifyToken,
+  upload.fields([{ name: "picture" }, { name: "song" }]),
+  createSong
+);
 
 //Routes
 
